@@ -12,9 +12,22 @@ const jobsRoute = require("./routes/jobs");
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
-
-app.use(express.json());
+// security
+const cors = require("cors");
+const xss = require("xss-clean");
+const helmet = require("helmet");
+const rateLimiter = require("express-rate-limit");
 // extra packages
+app.set("trust proxy", 1);
+app.use(
+  rateLimiter({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+  })
+);
+app.use(cors());
+app.use(helmet());
+app.use(xss());
 
 // routes
 app.use("/api/v1/auth", authRoute);
