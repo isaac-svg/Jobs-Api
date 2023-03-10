@@ -1,18 +1,40 @@
 const { StatusCodes } = require("http-status-codes");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const BadRequestError = require("../errors/bad-request");
+const UnauthenticatedError = require("../errors/unauthenticated");
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  console.log("user is being created");
 
-  const salt = await bcrypt.genSalt(+process.env.SALT);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  const tempUser = { name, password: hashedPassword, email };
-  const user = await User.create({ ...tempUser });
-  res.status(StatusCodes.CREATED).json(tempUser);
+  try {
+    const user = User({ ...req.body });
+    await user.save();
+    const token = user.createJWT();
+
+    res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token });
+  } catch (e) {
+    throw new BadRequestError("User creation failed");
+  }
 };
 
 const login = async (req, res) => {
-  res.send("login user");
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    throw new BadRequestError("Please provide email and password");
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new UnauthenticatedError("Invalid credentials");
+  }
+  const isPasswordCorrect = user.comparePassword(password);
+  if (!isPasswordCorrect) {
+    throw new UnauthenticatedError("Invalid credentials");
+  }
+  // const token = user.createJWT();
+
+  res.status(StatusCodes.OK).json({ user: { name: user.name } });
 };
 
 module.exports = {
