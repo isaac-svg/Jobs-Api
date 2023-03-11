@@ -43,7 +43,7 @@ app.use(express.static(pathToSwaggerUi));
 //
 
 app.get("/", (req, res) => {
-  res.setHeader("Content-Type", "Application/json");
+  res.setHeader("Content-Type", "text/html");
   res.send("<h1>Jobs API</h1> <a  href='/api-docs'>Documentation</a>");
 });
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
