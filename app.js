@@ -7,7 +7,6 @@ const fs = require("fs");
 const path = require("path");
 const authenticateUser = require("./middleware/authentication");
 // connectDB
-const pathToSwaggerUi = require("swagger-ui-dist").absolutePath();
 
 const connectDB = require("./db/connect");
 
@@ -25,7 +24,7 @@ const rateLimiter = require("express-rate-limit");
 
 const swaggerUi = require("swagger-ui-express");
 // const YAML = require("yamljs");
-const swaggerDocument = require("./swagger.json");
+const swaggerDocument = require(path.join(__dirname, "swagger.json"));
 
 var options = {
   customCss: ".swagger-ui .topbar { display: none }",
@@ -43,7 +42,6 @@ app.use(
 app.use(cors());
 app.use(helmet());
 app.use(xss());
-app.use(express.static(pathToSwaggerUi));
 //
 
 app.get("/", (req, res) => {
