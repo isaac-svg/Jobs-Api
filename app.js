@@ -3,6 +3,7 @@ require("express-async-errors");
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const fs = require("fs/promises");
 const authenticateUser = require("./middleware/authentication");
 // connectDB
 
@@ -63,3 +64,10 @@ const start = async () => {
 };
 
 start();
+process.on("unhandledRejection", async (e) => {
+  try {
+    await fs.writeFile("./unhandledRejections.txt", e, { flag: "a+" });
+  } catch (error) {
+    console.log(error.message);
+  }
+});
