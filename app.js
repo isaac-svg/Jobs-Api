@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const fs = require("fs");
+const path = require("path");
 const authenticateUser = require("./middleware/authentication");
 // connectDB
 
@@ -23,7 +24,7 @@ const rateLimiter = require("express-rate-limit");
 
 const swaggerUI = require("swagger-ui-express");
 const YAML = require("yamljs");
-const swaggerDocument = YAML.load("./swagger.yaml");
+const swaggerDocument = YAML.load(path.join(__dirname, "swagger.yaml"));
 // extra packages
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
