@@ -2,6 +2,7 @@ require("dotenv").config();
 require("express-async-errors");
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
 const authenticateUser = require("./middleware/authentication");
 // connectDB
 
@@ -18,6 +19,8 @@ const xss = require("xss-clean");
 const helmet = require("helmet");
 const rateLimiter = require("express-rate-limit");
 // extra packages
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.set("trust proxy", 1);
 app.use(
   rateLimiter({
