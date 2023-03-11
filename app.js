@@ -7,6 +7,7 @@ const fs = require("fs");
 const path = require("path");
 const authenticateUser = require("./middleware/authentication");
 // connectDB
+const pathToSwaggerUi = require("swagger-ui-dist").absolutePath();
 
 const connectDB = require("./db/connect");
 
@@ -38,6 +39,7 @@ app.use(
 app.use(cors());
 app.use(helmet());
 app.use(xss());
+app.use(express.static(pathToSwaggerUi));
 //
 
 app.get("/", (req, res) => {
