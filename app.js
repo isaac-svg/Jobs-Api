@@ -23,9 +23,13 @@ const helmet = require("helmet");
 const rateLimiter = require("express-rate-limit");
 //
 
-const swaggerUI = require("swagger-ui-express");
-const YAML = require("yamljs");
-const swaggerDocument = YAML.load(path.join(__dirname, "./swagger.yaml"));
+const swaggerUi = require("swagger-ui-express");
+// const YAML = require("yamljs");
+const swaggerDocument = require("./swagger.json");
+
+var options = {
+  customCss: ".swagger-ui .topbar { display: none }",
+};
 // extra packages
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -43,11 +47,13 @@ app.use(express.static(pathToSwaggerUi));
 //
 
 app.get("/", (req, res) => {
-  res.setHeader("Content-Type", "text/css");
   res.send("<h1>Jobs API</h1> <a  href='/api-docs'>Documentation</a>");
 });
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-// routes
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument, options)
+); // routes
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/jobs", authenticateUser, jobsRoute);
 

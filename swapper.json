@@ -1,0 +1,364 @@
+{
+  "openapi": "3.0.0",
+  "consumes": ["application/json", "application/xml"],
+  "produces": ["application/json", "application/xml"],
+  "info": {
+    "title": "Jobs Api",
+    "description": "API for authentication and for performing CRUD operations on jobs",
+    "contact": {},
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://ginger-jobs-api.vercel.app/api/v1/",
+      "variables": {}
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register",
+        "description": "Register User",
+        "operationId": "Register",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RegisterRequest"
+                  },
+                  {
+                    "example": {
+                      "name": "test",
+                      "email": "test1@test1.com",
+                      "password": "secret"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "name": "test",
+                "email": "test1@test1.com",
+                "password": "secret"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": []
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login",
+        "description": "Login User",
+        "operationId": "Login",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/LoginRequest"
+                  },
+                  {
+                    "example": {
+                      "name": "test",
+                      "email": "test1@test1.com",
+                      "password": "secret"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "name": "test",
+                "email": "test1@test1.com",
+                "password": "secret"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": []
+      }
+    },
+    "/jobs": {
+      "get": {
+        "tags": ["Jobs"],
+        "summary": "Get All Jobs",
+        "description": "Get All Jobs",
+        "operationId": "GetAllJobs",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["Jobs"],
+        "summary": "Create Job",
+        "description": "Create Job",
+        "operationId": "CreateJob",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CreateJobRequest"
+                  },
+                  {
+                    "example": {
+                      "company": "Amazon",
+                      "position": "senior software enginner"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "company": "Amazon",
+                "position": "senior software enginner"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/jobs/{id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "schema": {
+            "type": "string"
+          },
+          "required": true,
+          "description": "the job id"
+        }
+      ],
+      "get": {
+        "tags": ["Jobs"],
+        "summary": "Get Job",
+        "description": "Get Job",
+        "operationId": "GetJob",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": ["Jobs"],
+        "summary": "Update Job",
+        "description": "Update Job",
+        "operationId": "UpdateJob",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdateJobRequest"
+                  },
+                  {
+                    "example": {
+                      "company": "AT&T",
+                      "position": "research lead"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "company": "AT&T",
+                "position": "research lead"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["Jobs"],
+        "summary": "Delete Job",
+        "description": "Delete Job",
+        "operationId": "DeleteJob",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegisterRequest": {
+        "title": "RegisterRequest",
+        "required": ["name", "email", "password"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "name": "test",
+          "email": "test1@test1.com",
+          "password": "secret"
+        }
+      },
+      "LoginRequest": {
+        "title": "LoginRequest",
+        "required": ["name", "email", "password"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "name": "test",
+          "email": "test1@test1.com",
+          "password": "secret"
+        }
+      },
+      "CreateJobRequest": {
+        "title": "CreateJobRequest",
+        "required": ["company", "position"],
+        "type": "object",
+        "properties": {
+          "company": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "company": "Amazon",
+          "position": "senior software enginner"
+        }
+      },
+      "UpdateJobRequest": {
+        "title": "UpdateJobRequest",
+        "required": ["company", "position"],
+        "type": "object",
+        "properties": {
+          "company": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "company": "AT&T",
+          "position": "research lead"
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": ""
+    },
+    {
+      "name": "Jobs",
+      "description": ""
+    }
+  ]
+}
