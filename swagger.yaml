@@ -1,4 +1,10 @@
 openapi: 3.0.0
+consumes:
+  - application/json
+  - application/xml
+produces:
+  - application/json
+  - application/xml
 info:
   title: Jobs Api
   description: API for authentication and for performing CRUD operations on jobs
