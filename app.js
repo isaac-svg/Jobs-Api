@@ -28,6 +28,7 @@ const swaggerDocument = require(path.join(__dirname, "swagger.json"));
 
 var options = {
   customCss: ".swagger-ui .topbar { display: none }",
+  customCssUrl: "https://cdn.jsdelivr.net/npm/swagger-ui-themes@3.0.0/themes/3.x/theme-newspaper.css",
 };
 // extra packages
 app.use(bodyParser.urlencoded({ extended: true }));
