@@ -28,7 +28,7 @@ const swaggerDocument = require(path.join(__dirname, "swagger.json"));
 
 var options = {
   customCss: ".swagger-ui .topbar { display: none }",
-  customCssUrl: "https://cdn.jsdelivr.net/npm/swagger-ui-themes@3.0.0/themes/3.x/theme-newspaper.css",
+  
 };
 // extra packages
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -48,6 +48,12 @@ app.use(xss());
 app.get("/", (req, res) => {
   res.send("<h1>Jobs API</h1> <a  href='/api-docs'>Documentation</a>");
 });
+app.get('/api-docs/swagger-ui.css', (req, res) => {
+  res.setHeader('Content-Type', 'text/css');
+  const cssFilePath = path.join(__dirname, 'swagger-ui.css');
+  res.sendFile(cssFilePath);
+});
+
 app.use(
   "/api-docs",
   swaggerUi.serve,
